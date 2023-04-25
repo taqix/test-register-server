@@ -6,6 +6,7 @@ const usersArr = [];
 app.use(bodyParser.json());
 let counter = 0
 app.post("/register", (req, res) => {
+  console.log(req.body)
   const login = req.body.login;
   const password = req.body.password;
   const now = new Date();
@@ -26,10 +27,6 @@ app.post("/register", (req, res) => {
     res.send({status:'success'})
   }
   
-  // Do something with the data, e.g. save to a database
-//   console.log(`Login: ${login}, Password: ${password}`);
-
-  // Send a response back to the client
   
 });
 
@@ -37,7 +34,6 @@ app.get('/allData', function (req, res) {
     res.send({ status: "success",data:usersArr  });
 })
 app.post('/openDetails', function (req, res) {
-  console.log(req.body.count);
   const count = req.body.count;
 
   usersArr.forEach((user)=>{
@@ -47,6 +43,12 @@ app.post('/openDetails', function (req, res) {
   })
   res.send({status:'error'})
   
+})
+app.post('/deleteItem', function (req, res) {
+  const count = req.body.count;
+  const index = usersArr.findIndex((item) => item.count === count);
+  usersArr.splice(index,1)
+  res.send({status:'success',data:usersArr})
 })
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
